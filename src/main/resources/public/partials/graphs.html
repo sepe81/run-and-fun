@@ -93,3 +93,14 @@
     ></canvas>
   </div>
 </div>
+<div>
+  <h2>Cumulated kilometers for
+  <span data-ng-cloak>{{vm.runs.numberOfElements}}</span>
+  running activities
+  </h2>
+  <canvas class="chart chart-line"
+    chart-data="vm.cumulatedDistanceData"
+    chart-labels="vm.distanceLabels"
+    chart-series="vm.distanceSeriesLabels">
+  </canvas>
+</div>
