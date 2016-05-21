@@ -105,7 +105,6 @@
           label = readableDateLong[1];
           groupByKey = label;
           year = readableDateLong[0];
-          vm.distanceSeriesLabels.push(year);
         } else {
           if (graphs.groupBy === KM_PER_YEAR) {
             label = readableDateLong[0];
@@ -126,6 +125,7 @@
         graphs.cumulatedData[groupByKey] = graphs.cumulatedDistance;
 
         if (i + 1 === len || year && year !== utilService.dateFilter(activities[i + 1].date).split(DASH)[0]) {
+          vm.distanceSeriesLabels.push(year);
           finishSeries(graphs);
         }
       }
