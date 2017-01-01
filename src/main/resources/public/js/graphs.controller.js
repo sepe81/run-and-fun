@@ -73,29 +73,28 @@
         return;
       }
 
-      var graphs = {
-        'groupBy': groupBy,
-        'multipleSeries': vm.filterYear.key === CONST.KEY_ALL && groupBy === KM_PER_MONTH,
-        'data': {},
-        'labels': {},
-        'cumulatedData': {},
-        'cumulatedDistance': 0
+      const graphs = {
+        groupBy,
+        multipleSeries: vm.filterYear.key === CONST.KEY_ALL && groupBy === KM_PER_MONTH,
+        data: {},
+        labels: {},
+        cumulatedData: {},
+        cumulatedDistance: 0,
       };
 
       if (graphs.multipleSeries) {
-        for (var month = 1; month <= 12; month++) {
+        for (let month = 1; month <= 12; month++) {
           vm.distanceLabels.push((month < 10 ? '0' : '') + month);
         }
       }
 
-      processActivities(activities, graphs);
+      processActivities(_.sortBy(activities, CONST.DATE), graphs);
     }
 
     function processActivities(activities, graphs) {
-      activities = _.sortBy(activities, CONST.DATE);
-      for (var i = 0, len = activities.length; i < len; i++) {
-        var readableDateLong = utilService.dateFilter(activities[i].date).split(DASH);
-        var readableDateShort = utilService.dateFilter(activities[i].date).split(DASH);
+      for (let item = 0, len = activities.length; item < len; item++) {
+        const readableDateLong = utilService.dateFilter(activities[item].date).split(DASH);
+        const readableDateShort = utilService.dateFilter(activities[item].date).split(DASH);
 
         let label;
         let groupByKey;
@@ -117,14 +116,14 @@
             groupByKey = label + DOT + readableDateShort[0];
           }
         }
-        var distance = parseFloat(activities[i].distance.toFixed(2));
+        const distance = parseFloat(activities[item].distance.toFixed(2));
 
         graphs.data[groupByKey] = graphs.data[groupByKey] + distance || distance;
         graphs.labels[groupByKey] = label;
         graphs.cumulatedDistance += distance;
         graphs.cumulatedData[groupByKey] = graphs.cumulatedDistance;
 
-        if (i + 1 === len || year && year !== utilService.dateFilter(activities[i + 1].date).split(DASH)[0]) {
+        if (item + 1 === len || year && year !== utilService.dateFilter(activities[item + 1].date).split(DASH)[0]) {
           vm.distanceSeriesLabels.push(year);
           finishSeries(graphs);
         }
@@ -133,24 +132,24 @@
 
     function finishSeries(graphs) {
       logger.debug('finishSeries');
-      var series = [];
-      var cumulatedSeries = [];
+      const series = [];
+      const cumulatedSeries = [];
 
       if (graphs.multipleSeries) {
-        for (var monthKey in vm.distanceLabels) {
-          var seriesKey = vm.distanceLabels[monthKey];
+        for (const monthKey in vm.distanceLabels) {
+          const seriesKey = vm.distanceLabels[monthKey];
           series.push(graphs.data[seriesKey] || 0);
 
-          var distanceOfMonth = graphs.cumulatedData[seriesKey];
+          let distanceOfMonth = graphs.cumulatedData[seriesKey];
           if (!distanceOfMonth) {
             // take cumulated distance till now if previous month is defined, otherwise 0
-            var prevSeriesKey = prevSeriesKey || vm.distanceLabels[monthKey - 1];
+            const prevSeriesKey = prevSeriesKey || vm.distanceLabels[monthKey - 1];
             distanceOfMonth = graphs.data[prevSeriesKey] ? graphs.cumulatedDistance : 0;
           }
           cumulatedSeries.push(distanceOfMonth);
         }
       } else {
-        for (var key in graphs.labels) {
+        for (const key in graphs.labels) {
           series.push(graphs.data[key]);
           cumulatedSeries.push(graphs.cumulatedData[key]);
           vm.distanceLabels.push(graphs.labels[key]);
