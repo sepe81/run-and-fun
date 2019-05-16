@@ -1,6 +1,6 @@
 buildscript {
     repositories { mavenCentral() }
-    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.7.RELEASE") }
+    dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.5.RELEASE") }
 }
 
 plugins {
