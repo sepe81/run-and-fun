@@ -17,7 +17,7 @@
     "angular-ui-bootstrap": "^2.5.0",
     "bootstrap": "^3.3.7",
     "chart.js": "~2.5.0",
-    "grunt": "^1.0.1",
+    "grunt": "^1.0.4",
     "grunt-babel": "6.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.0.0",
@@ -26,7 +26,8 @@
     "grunt-contrib-uglify": "3.1.0",
     "load-grunt-tasks": "^3.5.2",
     "lodash": "^4.17.13",
-    "moment": "2.21.0"
+    "moment": "2.21.0",
+    "snyk": "^1.251.0"
   },
   "description": "run-and-fun javascript project",
   "devDependencies": {
@@ -47,7 +48,10 @@
   "private": true,
   "scripts": {
     "postinstall": "grunt build",
-    "test": "karma start src/test/js/karma.conf.js"
+    "test": "karma start src/test/js/karma.conf.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "snyk": true
 }
