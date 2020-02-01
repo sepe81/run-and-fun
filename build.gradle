@@ -40,7 +40,7 @@ dependencies {
     runtime "net.java.dev.jna:jna"
 
     testCompile "org.springframework.boot:spring-boot-starter-test",
-            "junit:junit:4.12"
+            "junit:junit:4.13"
 }
 
 // see http://www.rehpoehler.de/gradle/Gradle-Eclipse-WTP-Beispiel.html
